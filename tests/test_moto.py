@@ -512,6 +512,9 @@ def test_dynamodb_basic_usage(moto_dynamodb):
     table = wr.dynamodb.get_table(table_name=table_name)
     assert table.item_count == len(items)
 
+    df_table_data : pd.DataFrame = wr.dynamodb.scan_table(table_name=table_name)
+    assert df_table_data.shape[0]==len(items)
+
     wr.dynamodb.delete_items(items=items, table_name=table_name)
     table = wr.dynamodb.get_table(table_name=table_name)
     assert table.item_count == 0
